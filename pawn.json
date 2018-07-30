@@ -7,14 +7,14 @@
 		"sampctl/samp-stdlib",
 		"pawn-lang/YSI-Includes",
 		"Awsomedude/easyDialog",
-		"ScavengeSurvive/inventory",
-		"ScavengeSurvive/item",
-		"ScavengeSurvive/tick-difference"
+		"Dystopian-Roleplay/inventory",
+		"Dystopian-Roleplay/item",
+		"Dystopian-Roleplay/tick-difference"
 	],
 	"dev_dependencies": [
-		"ScavengeSurvive/test-boilerplate",
+		"Dystopian-Roleplay/test-boilerplate",
 		"Southclaws/zcmd",
-		"ScavengeSurvive/test-boilerplate-items"
+		"Dystopian-Roleplay/test-boilerplate-items"
 	],
 	"runtime": {
 		"version": "0.3.7",
