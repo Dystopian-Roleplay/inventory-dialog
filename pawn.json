@@ -7,14 +7,14 @@
 		"sampctl/samp-stdlib",
 		"pawn-lang/YSI-Includes",
 		"Awsomedude/easyDialog",
-		"Dystopian-Roleplay/inventory",
-		"Dystopian-Roleplay/item",
-		"Dystopian-Roleplay/tick-difference"
+		"Dystopian-Roleplay/inventory@2.0.0",
+		"Dystopian-Roleplay/item@2.0.0",
+		"Dystopian-Roleplay/tick-difference@2.0.0"
 	],
 	"dev_dependencies": [
-		"Dystopian-Roleplay/test-boilerplate",
+		"Dystopian-Roleplay/test-boilerplate@2.0.0",
 		"Southclaws/zcmd",
-		"Dystopian-Roleplay/test-boilerplate-items"
+		"Dystopian-Roleplay/test-boilerplate-items@2.0.0"
 	],
 	"runtime": {
 		"version": "0.3.7",
