@@ -14,7 +14,7 @@
 #include <tick-difference>
 #include <YSI\y_hooks>
 
-#include "inventory-dialog.inc"
+#include "inventory-textdraws.inc"
 
 // -
 // Function API
