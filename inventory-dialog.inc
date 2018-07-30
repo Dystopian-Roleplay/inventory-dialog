@@ -380,12 +380,20 @@ hook OnScriptInit() {
 			inv_SelectedSlot[i] = -1;
 		}
 	}
+
+	LoadInventoryTextdraws();
 }
 
 hook OnPlayerConnect(playerid) {
 	for(new j; j < MAX_INVENTORY_SLOTS; j++) {
 		inv_SelectedSlot[playerid] = -1;
 	}
+
+	LoadPlayerInventoryTextdraws();
+}
+
+hook OnPlayerDisconnect(playerid, reason) {
+	DestroyPlayerInventoryTextdraws();
 }
 
 Dialog:_inv_inventoryList(playerid, response, listitem, inputtext[]) {

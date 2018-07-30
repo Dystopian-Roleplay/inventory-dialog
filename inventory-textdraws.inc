@@ -31,7 +31,7 @@ new PlayerText:inv_head_model,
     PlayerText:inv_back_model,
     PlayerText:inv_weight;
 
-hook OnGameModeInit() {
+stock LoadInventoryTextdraws() {
     inv_background = TextDrawCreate(323.000000, 62.000000, "_");
 	TextDrawFont(inv_background, 1);
 	TextDrawLetterSize(inv_background, 0.808332, 39.149990);
@@ -247,7 +247,7 @@ hook OnGameModeInit() {
     return 1;
 }
 
-hook OnPlayerConnect(playerid) {
+stock LoadPlayerInventoryTextdraws(playerid) {
     inv_head_model = CreatePlayerTextDraw(playerid, 90.000000, 112.000000, "Preview_Model");
 	PlayerTextDrawFont(playerid, inv_head_model, 5);
 	PlayerTextDrawLetterSize(playerid, inv_head_model, 0.600000, 2.000000);
@@ -858,7 +858,7 @@ hook OnPlayerConnect(playerid) {
     return 1;
 }
 
-hook OnPlayerDisconnect(playerid, reason) {
+stock DestroyPlayerInventoryTextdraws(playerid, reason) {
     PlayerTextDrawDestroy(playerid, inv_head_model);
 	PlayerTextDrawDestroy(playerid, inv_body_text);
 	PlayerTextDrawDestroy(playerid, inv_body_model);
