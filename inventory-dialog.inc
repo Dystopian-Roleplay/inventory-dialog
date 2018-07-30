@@ -197,7 +197,9 @@ stock DisplayPlayerInventory(playerid, page = 0) {
 stock GeneratePlayerInventoryPage(playerid, page = 0) {
 	new str[300], 
 		tmp[5 + MAX_ITEM_NAME + MAX_ITEM_TEXT + 1],
-		itemModel;
+		itemModel,
+		ret,
+		Item:itemid;
 
 	format(str, sizeof(str), "Page: ~g~%d/5",page+1);
 	PlayerTextDrawSetString(playerid, inv_page, str);
@@ -225,10 +227,10 @@ stock GeneratePlayerInventoryPage(playerid, page = 0) {
 		inv_ItemListTotal[playerid]++;
 
 
-		for(new w = 0; w < 11; w++) {
-			PlayerTextDrawSetPreviewModel(playerid, inv_weapon[w], PlayerInventory[invSlotWeapon][w]);
-			PlayerTextDrawShow(playerid, inv_weapon[w]);
-		}
+		// for(new w = 0; w < 11; w++) {
+		// 	PlayerTextDrawSetPreviewModel(playerid, inv_weapon[w], PlayerInventory[invSlotWeapon][w]);
+		// 	PlayerTextDrawShow(playerid, inv_weapon[w]);
+		// }
 
 		GetItemTypeModel(itemid, itemModel);
 		PlayerTextDrawSetPreviewModel(playerid, inv_inventory[slot], itemModel);

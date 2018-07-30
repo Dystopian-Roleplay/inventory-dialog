@@ -888,10 +888,10 @@ hook OnPlayerDisconnect(playerid, reason) {
 	PlayerTextDrawDestroy(playerid, inv_inventory[11]);
 	PlayerTextDrawDestroy(playerid, inv_page);
 	PlayerTextDrawDestroy(playerid, inv_item_preview);
-	PlayerTextDrawDestroy(playerid, inv_right_arm_text);
-	PlayerTextDrawDestroy(playerid, inv_right_arm_model);
-	PlayerTextDrawDestroy(playerid, inv_left_arm_text);
-	PlayerTextDrawDestroy(playerid, inv_left_arm_model);
+	PlayerTextDrawDestroy(playerid, inv_toy_one_text);
+	PlayerTextDrawDestroy(playerid, inv_toy_one_model);
+	PlayerTextDrawDestroy(playerid, inv_toy_two_text);
+	PlayerTextDrawDestroy(playerid, inv_toy_two_model);
 	PlayerTextDrawDestroy(playerid, inv_back_text);
 	PlayerTextDrawDestroy(playerid, inv_back_model);
 	PlayerTextDrawDestroy(playerid, inv_weight);
