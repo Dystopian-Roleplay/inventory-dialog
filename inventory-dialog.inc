@@ -12,11 +12,9 @@
 
 #include <a_samp>
 #include <tick-difference>
-#include <item>
-#include <inventory>
-#include <easyDialog>
 #include <YSI\y_hooks>
 
+#include "inventory-dialog.inc"
 
 // -
 // Function API
@@ -24,7 +22,7 @@
 
 
 // DisplayPlayerInventory displays the inventory dialog.
-forward DisplayPlayerInventory(playerid);
+forward DisplayPlayerInventory(playerid, page = 0);
 
 // ClosePlayerInventory closes the inventory dialog, optionally calls
 // `OnPlayerCloseInventory`.
@@ -112,13 +110,33 @@ static
 // API
 // -
 
-stock DisplayPlayerInventory(playerid) {
+stock DisplayPlayerInventory(playerid, page = 0) {
 	if(!IsPlayerConnected(playerid)) {
 		return 1;
 	}
 
 	dbg("inventory-dialog", "showing inventory for player",
 		_i("playerid", playerid));
+
+	TextDrawShowForPlayer(playerid, inv_background);
+	TextDrawShowForPlayer(playerid, inv_player);
+	PlayerTextDrawShow(playerid, inv_head_model);
+	TextDrawShowForPlayer(playerid, inv_head_text);
+	PlayerTextDrawShow(playerid, inv_body_text);
+	PlayerTextDrawShow(playerid, inv_body_model);
+	TextDrawShowForPlayer(playerid, inv_face_text);
+	PlayerTextDrawShow(playerid, inv_face_model);
+	TextDrawShowForPlayer(playerid, inv_weapon_text);
+	TextDrawShowForPlayer(playerid, inv_header_inventory);
+	TextDrawShowForPlayer(playerid, inv_header_char);
+	TextDrawShowForPlayer(playerid, inv_close);
+	TextDrawShowForPlayer(playerid, inv_seperator);
+	PlayerTextDrawShow(playerid, inv_toy_one_text);
+	PlayerTextDrawShow(playerid, inv_toy_one_model);
+	PlayerTextDrawShow(playerid, inv_toy_two_text);
+	PlayerTextDrawShow(playerid, inv_toy_two_model);
+	PlayerTextDrawShow(playerid, inv_back_text);
+	PlayerTextDrawShow(playerid, inv_back_model);
 
 	new
 		title[18],
@@ -134,28 +152,26 @@ stock DisplayPlayerInventory(playerid) {
 		return 2;
 	}
 
-	new itemsize;
-	for(new i; i < size; i++) {
-		ret = GetInventorySlotItem(playerid, i, itemid);
+	GeneratePlayerInventoryPage(playerid, page);
 
-		if(!IsValidItem(itemid) || ret) {
-			break;
-		}
+	// new itemsize;
+	// for(new i; i < size; i++) {
+	// 	ret = GetInventorySlotItem(playerid, i, itemid);
 
-		GetItemName(itemid, tmp);
+	// 	if(!IsValidItem(itemid) || ret) {
+	// 		break;
+	// 	}
 
-		GetItemTypeSize(GetItemType(itemid), itemsize);
-		format(list, sizeof(list), "%s[%02d]%s\n", list, itemsize, tmp);
-		inv_ItemListTotal[playerid]++;
-	}
+	// 	GetItemName(itemid, tmp);
 
-	new slots;
-	ret = GetInventoryFreeSlots(playerid, slots);
+	// 	GetItemTypeSize(GetItemType(itemid), itemsize);
 
-	for(new i; i < slots; i++) {
-		strcat(list, "<Empty>\n");
-		inv_ItemListTotal[playerid]++;
-	}
+
+		
+	// 	format(list, sizeof(list), "%s[%02d]%s\n", list, itemsize, tmp);
+		
+	// 	inv_ItemListTotal[playerid]++;
+	// }
 
 	inv_ExtraItemList[playerid][0] = EOS;
 	inv_ExtraItemCount[playerid] = 0;
@@ -168,13 +184,83 @@ stock DisplayPlayerInventory(playerid) {
 		strcat(list, inv_ExtraItemList[playerid]);
 	}
 
-	format(title, sizeof(title), "Inventory (%d/%d)", size - slots, size);
+	//format(title, sizeof(title), "Inventory (%d/%d)", size - slots, size);
 
-	Dialog_Show(playerid, _inv_inventoryList, DIALOG_STYLE_LIST, title, list, "Options", "Close");
+	//Dialog_Show(playerid, _inv_inventoryList, DIALOG_STYLE_LIST, title, list, "Options", "Close");
 
 	inv_ViewingInventory[playerid] = true;
 
+	SelectTextDraw(playerid, 0xEEEEEEFF);
 	return 0;
+}
+
+stock GeneratePlayerInventoryPage(playerid, page = 0) {
+	new str[300], 
+		tmp[5 + MAX_ITEM_NAME + MAX_ITEM_TEXT + 1],
+		itemModel;
+
+	format(str, sizeof(str), "Page: ~g~%d/5",page+1);
+	PlayerTextDrawSetString(playerid, inv_page, str);
+	PlayerTextDrawShow(playerid, inv_page);
+	TextDrawShowForPlayer(playerid, inv_pageleft);
+	TextDrawShowForPlayer(playerid, inv_pageright);
+
+	for(new i = (page * 12); i < ((page + 1) * 12); i++) {
+		new slot = i - (page * 12);
+
+		ret = GetInventorySlotItem(playerid, slot, itemid);
+
+		if(!IsValidItem(itemid) || ret) {
+			continue;
+		}
+
+		GetItemName(itemid, tmp);
+
+		//GetItemTypeSize(GetItemType(itemid), itemsize);
+
+
+		
+		//format(list, sizeof(list), "%s[%02d]%s\n", list, itemsize, tmp);
+		
+		inv_ItemListTotal[playerid]++;
+
+
+		for(new w = 0; w < 11; w++) {
+			PlayerTextDrawSetPreviewModel(playerid, inv_weapon[w], PlayerInventory[invSlotWeapon][w]);
+			PlayerTextDrawShow(playerid, inv_weapon[w]);
+		}
+
+		GetItemTypeModel(itemid, itemModel);
+		PlayerTextDrawSetPreviewModel(playerid, inv_inventory[slot], itemModel);
+	 	PlayerTextDrawShow(playerid, inv_inventory[slot]);
+
+		// new slots;
+		// ret = GetInventoryFreeSlots(playerid, slots);
+		// for(new x; x < slots; x++) {
+		// 	PlayerTextDrawSetPreviewModel(playerid, inv_inventory[x], 19300);
+		//  	PlayerTextDrawShow(playerid, inv_inventory[x]);
+		// }
+
+	 		// if(PlayerInventory[invSelectedSlot] == i) {
+			// 	TextDrawShowForPlayer(playerid, inv_use_button);
+			// 	TextDrawShowForPlayer(playerid, inv_drop_button);
+			// 	TextDrawShowForPlayer(playerid, inv_give_button);
+				
+			// 	PlayerTextDrawSetPreviewModel(playerid, inv_item_preview, InventoryItems[PlayerInventory[invSlot][i]][eInvModel]);
+			// 	PlayerTextDrawShow(playerid, inv_item_preview);
+			// 	TextDrawShowForPlayer(playerid, inv_item_bg);
+			// 	format(str,sizeof(str),"Name: ~g~%s~n~~w~Weight: ~g~%.2flbs~n~~w~Quantity: ~g~%d~n~~w~Description: ~g~Pending description :(",InventoryItems[PlayerInventory[invSlot][i]][eInvName],InventoryItems[PlayerInventory[invSlot][i]][eInvWeight],PlayerInventory[invSlotAmount][i]);
+			// 	PlayerTextDrawSetString(playerid, inv_item_data, str);
+			// 	PlayerTextDrawShow(playerid, inv_item_data);
+			// }
+
+		continue;
+	}
+
+	// format(str, sizeof(str), "%.2f/25lbs", GetInventoryWeight(playerid));
+	// PlayerTextDrawSetString(playerid, inv_weight, str);
+	// PlayerTextDrawShow(playerid, inv_weight);
+	return 1;
 }
 
 stock ClosePlayerInventory(playerid, call = false) {
